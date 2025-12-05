@@ -1,0 +1,56 @@
+---
+layout: none
+title: Blog
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | CS Research Profile</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <span class="logo-badge">CS</span>
+        <span>Blog</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">Home</a></li>
+          <li><a href="{{ '/pages/about.html' | relative_url }}">Online CV</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <span class="pill">Notes & Updates</span>
+        <h1>Blog</h1>
+        <p class="muted">Jekyll结构：文章放在 <code>_posts</code>，使用 <code>YYYY-MM-DD-title.md</code> 命名。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title"><span class="dot"></span><strong>Posts</strong></div>
+      <div class="grid">
+        {% for post in site.posts %}
+        <article class="card">
+          <p class="muted">{{ post.date | date: "%Y-%m-%d" }}</p>
+          <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+          <p class="muted">{{ post.excerpt }}</p>
+        </article>
+        {% else %}
+        <div class="card">
+          <p class="muted">暂无文章，向 <code>_posts</code> 添加 Markdown 文件即可。</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+</body>
+</html>
