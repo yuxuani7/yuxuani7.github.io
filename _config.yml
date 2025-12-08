@@ -1,0 +1,22 @@
+title: Personal Site
+description: Static home and blog with Jekyll and MathJax rendering for Markdown math.
+
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  input: GFM
+  math_engine: mathjax
+  syntax_highlighter: rouge
+  hard_wrap: false
+
+# Skip build outputs and local tooling artifacts.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - _site
+  - .jekyll-cache
+  - .jekyll-metadata
+  - .bundle
