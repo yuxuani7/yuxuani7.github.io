@@ -1,0 +1,7 @@
+AGENTS.md
+Gemfile
+Gemfile.lock
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
