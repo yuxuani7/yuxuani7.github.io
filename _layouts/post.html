@@ -28,6 +28,7 @@
         <ul>
           <li><a href="{{ '/' | relative_url }}">Home</a></li>
           <li><a href="{{ '/blog/' | relative_url }}">Blog</a></li>
+          <li><a href="{{ '/blog/tags.html' | relative_url }}">Tags</a></li>
           <li><a href="{{ '/pages/about.html' | relative_url }}">Online CV</a></li>
         </ul>
       </nav>
@@ -39,6 +40,18 @@
       <p class="muted">{{ page.date | date: "%Y-%m-%d" }}</p>
       <h1>{{ page.title }}</h1>
       {% if page.description %}<p class="muted">{{ page.description }}</p>{% endif %}
+      {% if page.tags %}
+      <div class="tags">
+        {% for tag in page.tags %}
+          {% assign tag_page = site.pages | where: "layout", "tag" | where: "tag", tag | first %}
+          {% if tag_page %}
+            <a class="tag" href="{{ tag_page.url | relative_url }}">{{ tag }}</a>
+          {% else %}
+            <span class="tag">{{ tag }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
       <div class="content">
         {{ content }}
       </div>

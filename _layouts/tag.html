@@ -1,25 +1,22 @@
----
-layout: none
-title: Blog
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog | Personal Site</title>
+  <title>{{ page.title | default: page.tag }} | Tags</title>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
   <header>
     <div class="nav">
       <div class="logo">
-        <span class="logo-badge">B</span>
-        <span>Blog</span>
+        <span class="logo-badge">TG</span>
+        <span>Tag</span>
       </div>
       <nav>
         <ul>
           <li><a href="{{ '/' | relative_url }}">Home</a></li>
+          <li><a href="{{ '/blog/' | relative_url }}">Blog</a></li>
           <li><a href="{{ '/blog/tags.html' | relative_url }}">Tags</a></li>
           <li><a href="{{ '/pages/about.html' | relative_url }}">Online CV</a></li>
         </ul>
@@ -30,19 +27,24 @@ title: Blog
   <main class="page">
     <section class="hero">
       <div>
-        <span class="pill">Notes & Updates</span>
-        <h1>Blog</h1>
-        <p class="muted">Jekyll结构：文章放在 <code>_posts</code>，使用 <code>YYYY-MM-DD-title.md</code> 命名；支持标签，点击标签可查看聚合。</p>
-        <div class="btn-row">
-          <a class="btn" href="{{ '/blog/tags.html' | relative_url }}">浏览全部标签</a>
-        </div>
+        <span class="pill">Tag</span>
+        <h1>{{ page.tag }}</h1>
+        <p class="muted">按时间倒序列出标签下的文章。</p>
       </div>
     </section>
 
     <section>
       <div class="section-title"><span class="dot"></span><strong>Posts</strong></div>
+      {% assign tag_posts = site.tags[page.tag] %}
+      {% if tag_posts == nil and page.tag_slug %}
+        {% assign tag_posts = site.tags[page.tag_slug] %}
+      {% endif %}
+      {% if tag_posts %}
+        {% assign tag_posts = tag_posts | sort: "date" | reverse %}
+      {% endif %}
+      {% if tag_posts and tag_posts.size > 0 %}
       <div class="grid">
-        {% for post in site.posts %}
+        {% for post in tag_posts %}
         <article class="card">
           <p class="muted">{{ post.date | date: "%Y-%m-%d" }}</p>
           <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
@@ -60,12 +62,13 @@ title: Blog
           </div>
           {% endif %}
         </article>
-        {% else %}
-        <div class="card">
-          <p class="muted">暂无文章，向 <code>_posts</code> 添加 Markdown 文件即可。</p>
-        </div>
         {% endfor %}
       </div>
+      {% else %}
+      <div class="card">
+        <p class="muted">该标签下暂无文章。</p>
+      </div>
+      {% endif %}
     </section>
   </main>
 </body>

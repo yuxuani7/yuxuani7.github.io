@@ -1,0 +1,69 @@
+---
+layout: none
+title: Tags
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tags | Blog</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <span class="logo-badge">T</span>
+        <span>Tags</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">Home</a></li>
+          <li><a href="{{ '/blog/' | relative_url }}">Blog</a></li>
+          <li><a href="{{ '/pages/about.html' | relative_url }}">Online CV</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <span class="pill">Tag Directory</span>
+        <h1>全部标签</h1>
+        <p class="muted">点击标签跳转到聚合页，查看按时间倒序排列的相关文章。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title"><span class="dot"></span><strong>Tags</strong></div>
+      {% assign tag_pages = site.pages | where: "layout", "tag" | sort: "tag" %}
+      {% if tag_pages.size > 0 %}
+      <div class="grid">
+        {% for tag_page in tag_pages %}
+        {% assign tag_posts = site.tags[tag_page.tag] | sort: "date" | reverse %}
+        <article class="card">
+          <div class="tags">
+            <a class="tag" href="{{ tag_page.url | relative_url }}">{{ tag_page.tag }}</a>
+          </div>
+          <p class="muted">{{ tag_posts | size }} 篇文章</p>
+          {% if tag_posts.size > 0 %}
+          <ul class="muted">
+            {% for post in tag_posts limit: 3 %}
+            <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a> · {{ post.date | date: "%Y-%m-%d" }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="card">
+        <p class="muted">暂无标签，先在文章 front matter 中添加 <code>tags</code>，然后运行脚本生成标签页。</p>
+      </div>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
